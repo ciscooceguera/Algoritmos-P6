@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.practica4algoritmos.ControllerInterfaz">
+
+    <top>
+        <VBox spacing="5">
+            <HBox spacing="10" style="-fx-padding: 10; -fx-background-color: #2c3e50;">
+                <Label text="Análisis de clima y ordenamientos"
+                       style="-fx-text-fill: white; -fx-font-size: 18;"/>
+            </HBox>
+
+            <ScrollPane hbarPolicy="AS_NEEDED" vbarPolicy="NEVER" fitToHeight="true">
+                <content>
+                    <HBox fx:id="contenedorHistogramas"
+                          spacing="10"
+                          style="-fx-padding: 5; -fx-background-color: #f7f7f7;"/>
+                </content>
+            </ScrollPane>
+        </VBox>
+    </top>
+
+
+    <center>
+        <TableView fx:id="tablaClima"/>
+    </center>
+
+    <right>
+        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #ecf0f1;">
+            <Label text="Columna a ordenar:"/>
+            <ComboBox fx:id="comboColumnas" promptText="Selecciona una columna"/>
+            <Button text="Cargar datos" fx:id="btnCargar" onAction="#onCargarDatos"/>
+            <Button text="Medir tiempos" fx:id="btnMedir" onAction="#onMedirTiempos"/>
+            <Label text="Tiempos de ejecución:"/>
+            <TextArea fx:id="areaTiempos" prefRowCount="15" wrapText="true"/>
+        </VBox>
+    </right>
+
+</BorderPane>
