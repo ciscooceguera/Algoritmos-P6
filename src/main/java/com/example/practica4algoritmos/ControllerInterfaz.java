@@ -9,7 +9,9 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.Map;
 public class ControllerInterfaz {
 
     @FXML private TableView<RegistroClima> tablaClima;
+    private String min = "";
     @FXML private ComboBox<String> comboColumnas;
     @FXML private TextArea areaTiempos;
     @FXML private HBox contenedorHistogramas;
@@ -77,6 +80,7 @@ public class ControllerInterfaz {
         datos = cargarLista("C:\\Users\\RedBo\\OneDrive\\Escritorio\\ALGORITMOS\\Algoritmos-P6\\src\\main\\java\\weatherHistory.csv");
         tablaClima.setItems(FXCollections.observableArrayList(datos));
         areaTiempos.setText("Datos cargados: " + datos.size() + " registros.\n");
+        areaTiempos.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
         actualizarHistogramas();
     }
 
@@ -108,6 +112,7 @@ public class ControllerInterfaz {
                 break;
 
         }
+        actualizarHistogramas();
         areaTiempos.setText(res);
     }
 

@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Main extends Application {
@@ -37,15 +38,15 @@ public class Main extends Application {
             while ((linea = br.readLine())!=null){
                 String[] datos = linea.split(",");
                 lista.add(new RegistroClima(
-                   datos[0],
-                   datos[1],
-                   datos[2],
-                   Double.parseDouble(datos[3]),
-                   Double.parseDouble(datos[4]),
-                   Double.parseDouble(datos[5]),
-                   Double.parseDouble(datos[6]),
-                   Double.parseDouble(datos[7]),
-                   Double.parseDouble(datos[8])
+                        datos[0],
+                        datos[1],
+                        datos[2],
+                        Double.parseDouble(datos[3]),
+                        Double.parseDouble(datos[4]),
+                        Double.parseDouble(datos[5]),
+                        Double.parseDouble(datos[6]),
+                        Double.parseDouble(datos[7]),
+                        Double.parseDouble(datos[8])
                 ));
             }
         } catch (IOException e) {
@@ -54,8 +55,8 @@ public class Main extends Application {
         return lista;
     }
     /*
-    * Recibe la columna de la que se desea obtener un listado de valores,
-    * y la lista, y retorna un vector con todos los datos enlistados
+     * Recibe la columna de la que se desea obtener un listado de valores,
+     * y la lista, y retorna un vector con todos los datos enlistados
      */
     public static double[] obtenerColumna(List<RegistroClima> datos, String columna){
         double[] array = new double[datos.size()];
@@ -84,7 +85,7 @@ public class Main extends Application {
         return array;
     }
     /*
-    * Hace lo mismo que obtenerColumna pero retorna un vector tipo String
+     * Hace lo mismo que obtenerColumna pero retorna un vector tipo String
      */
     public static String[] obtenerColumnaStr(List<RegistroClima> datos, String columna){
         String[] array = new String[datos.size()];
@@ -104,11 +105,11 @@ public class Main extends Application {
         return array;
     }
     /*
-    * Recibe la lista y la columna de las cuales se desea tomar mediciones de tiempo,
-    * se obtiene un vector que contiene el listado de valores de la columna que se desea
-    * ordenar, y se crea una copia por cada tipo de ordenamiento que se evaluará,
-    * después se realiza la medición del tiempo y se guarda en una variable tipo long,
-    * y finalmente se concatenan los resultados en un String.
+     * Recibe la lista y la columna de las cuales se desea tomar mediciones de tiempo,
+     * se obtiene un vector que contiene el listado de valores de la columna que se desea
+     * ordenar, y se crea una copia por cada tipo de ordenamiento que se evaluará,
+     * después se realiza la medición del tiempo y se guarda en una variable tipo long,
+     * y finalmente se concatenan los resultados en un String.
      */
     public static String medirTiemposOrdenamientosStr(List<RegistroClima> datos, String columna) {
         String[] original = obtenerColumnaStr(datos, columna);
@@ -124,6 +125,26 @@ public class Main extends Application {
         long tSelec = medirTiempo(() -> Ordenamientos.seleccionDirecta(arrSelec));
         long tSort  = medirTiempo(() -> Arrays.sort(arrSort));
         long tPar   = medirTiempo(() -> Arrays.parallelSort(arrPar));
+
+        long[] vector = new long[6];
+        vector[0] = tQuick;
+        vector[1] = tMerge;
+        vector[2] = tShell;
+        vector[3] = tSelec;
+        vector[4] = tSort;
+        vector[5] = tPar;
+
+
+        String[] nombres = {
+                "Quicksort",
+                "Mergesort",
+                "Shell sort",
+                "Selección directa",
+                "Arrays.sort",
+                "parallelSort"
+        };
+
+
         StringBuilder sb = new StringBuilder();
         sb.append("Columna: ").append(columna).append("\n\n");
         sb.append("Quicksort:         ").append(tQuick).append(" ns\n");
@@ -132,11 +153,28 @@ public class Main extends Application {
         sb.append("Selección directa: ").append(tSelec).append(" ns\n");
         sb.append("Arrays.sort:       ").append(tSort).append(" ns\n");
         sb.append("parallelSort:      ").append(tPar).append(" ns\n");
+
+        long min = vector[0];
+        int idxMin = 0;
+
+        for (int i = 1; i < vector.length; i++) {
+            if (vector[i] < min) {
+                min = vector[i];
+                idxMin = i;
+            }
+        }
+
+        sb.append("\nEl menor tiempo fue: ")
+                .append(nombres[idxMin])
+                .append(" con ")
+                .append(min)
+                .append(" ns\n");
+
         return sb.toString();
     }
     /*
-    * Hace lo mismo que medirTiemposOrdenamientosString pero los vectores son de
-    * tipo Double en lugar de tipo String
+     * Hace lo mismo que medirTiemposOrdenamientosString pero los vectores son de
+     * tipo Double en lugar de tipo String
      */
     public static String medirTiemposOrdenamientos(List<RegistroClima> datos, String columna) {
         double[] original = obtenerColumna(datos, columna);
@@ -157,6 +195,27 @@ public class Main extends Application {
         long tRadix = medirTiempo(() -> Ordenamientos.radixSort(arrRadix));
         long tSort  = medirTiempo(() -> Arrays.sort(arrSort));
         long tPar   = medirTiempo(() -> Arrays.parallelSort(arrPar));
+
+        long[] vector = new long[7];
+        vector[0] = tQuick;
+        vector[1] = tMerge;
+        vector[2] = tShell;
+        vector[3] = tSelec;
+        vector[4] = tRadix;
+        vector[5] = tSort;
+        vector[6] = tPar;
+
+
+        String[] nombres = {
+                "Quicksort",
+                "Mergesort",
+                "Shell sort",
+                "Selección directa",
+                "Radix Sort",
+                "Arrays.sort",
+                "parallelSort"
+        };
+
         StringBuilder sb = new StringBuilder();
         sb.append("Columna: ").append(columna).append("\n\n");
         sb.append("Quicksort:         ").append(tQuick).append(" ns\n");
@@ -167,11 +226,27 @@ public class Main extends Application {
         sb.append("parallelSort:      ").append(tPar).append(" ns\n");
         sb.append("Radix sort (int):  ").append(tRadix).append(" ns\n");
 
+        long min = vector[0];
+        int idxMin = 0;
+
+        for (int i = 1; i < vector.length; i++) {
+            if (vector[i] < min) {
+                min = vector[i];
+                idxMin = i;
+            }
+        }
+
+        sb.append("\nEl menor tiempo fue: ")
+                .append(nombres[idxMin])
+                .append(" con ")
+                .append(min)
+                .append(" ns\n");
+
         return sb.toString();
     }
     /*
-    * Recibe la función, guarda el tiempo, después la ejecuta, y en su término
-    * realiza otra medición
+     * Recibe la función, guarda el tiempo, después la ejecuta, y en su término
+     * realiza otra medición
      */
     private static long medirTiempo(Runnable metodo) {
         long inicio = System.nanoTime();
