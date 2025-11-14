@@ -1,4 +1,5 @@
 package com.example.practica4algoritmos;
+// Librerías
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,9 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
 public class Main extends Application {
     // Inicia la interfaz
     @Override
@@ -125,7 +124,6 @@ public class Main extends Application {
         long tSelec = medirTiempo(() -> Ordenamientos.seleccionDirecta(arrSelec));
         long tSort  = medirTiempo(() -> Arrays.sort(arrSort));
         long tPar   = medirTiempo(() -> Arrays.parallelSort(arrPar));
-
         long[] vector = new long[6];
         vector[0] = tQuick;
         vector[1] = tMerge;
@@ -133,8 +131,6 @@ public class Main extends Application {
         vector[3] = tSelec;
         vector[4] = tSort;
         vector[5] = tPar;
-
-
         String[] nombres = {
                 "Quicksort",
                 "Mergesort",
@@ -143,8 +139,6 @@ public class Main extends Application {
                 "Arrays.sort",
                 "parallelSort"
         };
-
-
         StringBuilder sb = new StringBuilder();
         sb.append("Columna: ").append(columna).append("\n\n");
         sb.append("Quicksort:         ").append(tQuick).append(" ns\n");
@@ -153,23 +147,19 @@ public class Main extends Application {
         sb.append("Selección directa: ").append(tSelec).append(" ns\n");
         sb.append("Arrays.sort:       ").append(tSort).append(" ns\n");
         sb.append("parallelSort:      ").append(tPar).append(" ns\n");
-
         long min = vector[0];
         int idxMin = 0;
-
         for (int i = 1; i < vector.length; i++) {
             if (vector[i] < min) {
                 min = vector[i];
                 idxMin = i;
             }
         }
-
         sb.append("\nEl menor tiempo fue: ")
                 .append(nombres[idxMin])
                 .append(" con ")
                 .append(min)
                 .append(" ns\n");
-
         return sb.toString();
     }
     /*
@@ -195,7 +185,6 @@ public class Main extends Application {
         long tRadix = medirTiempo(() -> Ordenamientos.radixSort(arrRadix));
         long tSort  = medirTiempo(() -> Arrays.sort(arrSort));
         long tPar   = medirTiempo(() -> Arrays.parallelSort(arrPar));
-
         long[] vector = new long[7];
         vector[0] = tQuick;
         vector[1] = tMerge;
@@ -204,8 +193,6 @@ public class Main extends Application {
         vector[4] = tRadix;
         vector[5] = tSort;
         vector[6] = tPar;
-
-
         String[] nombres = {
                 "Quicksort",
                 "Mergesort",
@@ -215,7 +202,6 @@ public class Main extends Application {
                 "Arrays.sort",
                 "parallelSort"
         };
-
         StringBuilder sb = new StringBuilder();
         sb.append("Columna: ").append(columna).append("\n\n");
         sb.append("Quicksort:         ").append(tQuick).append(" ns\n");
@@ -225,23 +211,19 @@ public class Main extends Application {
         sb.append("Arrays.sort:       ").append(tSort).append(" ns\n");
         sb.append("parallelSort:      ").append(tPar).append(" ns\n");
         sb.append("Radix sort (int):  ").append(tRadix).append(" ns\n");
-
         long min = vector[0];
         int idxMin = 0;
-
         for (int i = 1; i < vector.length; i++) {
             if (vector[i] < min) {
                 min = vector[i];
                 idxMin = i;
             }
         }
-
         sb.append("\nEl menor tiempo fue: ")
                 .append(nombres[idxMin])
                 .append(" con ")
                 .append(min)
                 .append(" ns\n");
-
         return sb.toString();
     }
     /*
@@ -253,6 +235,4 @@ public class Main extends Application {
         metodo.run();
         return System.nanoTime() - inicio;
     }
-
-
 }

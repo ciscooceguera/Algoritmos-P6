@@ -1,6 +1,6 @@
 package com.example.practica4algoritmos;
-
 public class RegistroClima {
+    // Atributos
     private String fecha;
     private String resumen;
     private String tipoPrecipitacion;
@@ -10,14 +10,14 @@ public class RegistroClima {
     private double vientoVelocidad;
     private double vientoAngulo;
     private double visibilidad;
-
-
+    // Constructor, recibe todos los valores que se leen en un renglón del archivo CSV
     public RegistroClima(
             String fecha, String resumen, String tipoPrecipitacion,
             double temperatura, double temperaturaAparente,
             double humedad, double vientoVelocidad, double vientoAngulo,
             double visibilidad
     ) {
+        // Guarda los parámetros recibidos en los atributos
         this.fecha = fecha;
         this.resumen = resumen;
         this.tipoPrecipitacion = tipoPrecipitacion;
@@ -29,6 +29,7 @@ public class RegistroClima {
         this.visibilidad = visibilidad;
 
     }
+    // Getters
     public String getFecha() {
         return fecha;
     }

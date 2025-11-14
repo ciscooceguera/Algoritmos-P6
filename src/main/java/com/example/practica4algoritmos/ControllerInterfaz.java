@@ -1,5 +1,5 @@
 package com.example.practica4algoritmos;
-
+// Librerías
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -11,22 +11,22 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 public class ControllerInterfaz {
-
+    // Componentes interfaz
     @FXML private TableView<RegistroClima> tablaClima;
-    private String min = "";
     @FXML private ComboBox<String> comboColumnas;
     @FXML private TextArea areaTiempos;
     @FXML private HBox contenedorHistogramas;
+    // Atributos
     private List<RegistroClima> datos = new ArrayList<>();
-
-
+    /*
+     * Inicializa el contenido de las columnas: Utiliza TableColums,
+     * y carga las opciones del ComboBox
+     */
     @FXML
     public void initialize() {
         TableColumn<RegistroClima, String> colFecha = new TableColumn<>("Fecha");
@@ -74,7 +74,11 @@ public class ControllerInterfaz {
                 "Visibilidad"
         ));
     }
-
+    /*
+    * Se ejecuta cuando se presiona el botón "Cargar Datos", carga el archivo CSV, llena la tabla
+    * y actualiza los histogramas (gráficos)
+    *
+     */
     @FXML
     private void onCargarDatos() {
         datos = cargarLista("C:\\Users\\RedBo\\OneDrive\\Escritorio\\ALGORITMOS\\Algoritmos-P6\\src\\main\\java\\weatherHistory.csv");
@@ -83,7 +87,11 @@ public class ControllerInterfaz {
         areaTiempos.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
         actualizarHistogramas();
     }
-
+    /*
+    * Mide los tiempos de los algoritmos de ordenamiento para la columna que se
+    * haya seleccionado, recibe en una variable un String que indica todos los
+    * resultados obtenidos, y cambia el contenido del TextArea
+     */
     @FXML
     private void onMedirTiempos() {
         if (datos.isEmpty()) {
@@ -97,16 +105,10 @@ public class ControllerInterfaz {
         }
         String res;
         switch (columna) {
-            case "Fecha":
+            case "Fecha", "Resumen", "TipoPrecipitacion":
                 res = medirTiemposOrdenamientosString(datos, columna);
                 break;
-            case "Resumen":
-                res = medirTiemposOrdenamientosString(datos, columna);
-                break;
-            case "TipoPrecipitacion":
-                res = medirTiemposOrdenamientosString(datos, columna);
 
-                break;
             default:
                 res = medirTiemposOrdenamientos(datos, columna);
                 break;
@@ -115,17 +117,20 @@ public class ControllerInterfaz {
         actualizarHistogramas();
         areaTiempos.setText(res);
     }
-
+    /*
+    * Llama el cargarLista() de Main para cagar la lista desde el archivo
+     */
     private List<RegistroClima> cargarLista(String file){
         return Main.cargarLista(file);
     }
+    // Llama medirTiemposOrdenamientos() para medir los tiempos de ordenamiento
     private String medirTiemposOrdenamientos(List<RegistroClima> datos, String columna) {
         return Main.medirTiemposOrdenamientos(datos, columna);
     }
     private String medirTiemposOrdenamientosString(List<RegistroClima> datos, String columna) {
         return Main.medirTiemposOrdenamientosStr(datos, columna);
     }
-
+    // Limpia el contenedor de los histogramas y vuelve a generar todos los histogramas
     private void actualizarHistogramas() {
         contenedorHistogramas.getChildren().clear();
         crearHistogramaFecha();
@@ -136,21 +141,19 @@ public class ControllerInterfaz {
         crearHistogramaColumna("Viento Ángulo",     r -> r.getVientoAngulo());
         crearHistogramaColumna("Visibilidad",       r -> r.getVisibilidad());
     }
+    // Genera le histograma de frecuencia por fecha
     private void crearHistogramaFecha() {
         if (datos.isEmpty()) return;
-
         Map<String, Integer> conteo = new LinkedHashMap<>();
         for (RegistroClima r : datos) {
             String fecha = r.getFecha();
             conteo.put(fecha, conteo.getOrDefault(fecha, 0) + 1);
         }
-
         int maxCategorias = 25;
         List<String> fechas = new ArrayList<>(conteo.keySet());
         if (fechas.size() > maxCategorias) {
             fechas = fechas.subList(0, maxCategorias);
         }
-
         int maxFreq = 0;
         for (String f : fechas) {
             int freq = conteo.get(f);
@@ -180,6 +183,7 @@ public class ControllerInterfaz {
     private interface GetterValor {
         double get(RegistroClima r);
     }
+    // Genera un histograma para una columna numérica usando rangos de valores
     private void crearHistogramaColumna(String titulo, GetterValor getter) {
         if (datos.isEmpty()) return;
         int numBarras = 15;

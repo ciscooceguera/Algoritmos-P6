@@ -1,18 +1,15 @@
 package com.example.practica4algoritmos;
-
+// Librerías
 import java.util.Arrays;
-
 public class Ordenamientos {
     public static void seleccionDirecta(double[] arreglo) {
         for (int i = 0; i < arreglo.length; i++) {
             int indiceMinimo = i;
-
             for (int j = i + 1; j < arreglo.length; j++) {
                 if (arreglo[j] < arreglo[indiceMinimo]) {
                     indiceMinimo = j;
                 }
             }
-
             double aux = arreglo[i];
             arreglo[i] = arreglo[indiceMinimo];
             arreglo[indiceMinimo] = aux;
@@ -33,7 +30,6 @@ public class Ordenamientos {
             salto /= 2;
         }
     }
-
     public static void quicksort(double[] arreglo, int izquierda, int derecha) {
         if (izquierda >= derecha) return;
         double pivote = arreglo[(izquierda + derecha) / 2];
@@ -53,7 +49,6 @@ public class Ordenamientos {
         if (izquierda < j) quicksort(arreglo, izquierda, j);
         if (i < derecha) quicksort(arreglo, i, derecha);
     }
-
     public static void mergesort(double[] arreglo) {
         if (arreglo.length < 2) return;
         int mitad = arreglo.length / 2;
@@ -63,7 +58,6 @@ public class Ordenamientos {
         mergesort(derecha);
         combinar(arreglo, izquierda, derecha);
     }
-
     private static void combinar(double[] arreglo, double[] izquierda, double[] derecha) {
         int i = 0, j = 0, k = 0;
         while (i < izquierda.length && j < derecha.length) {
@@ -80,7 +74,6 @@ public class Ordenamientos {
             arreglo[k++] = derecha[j++];
         }
     }
-
     public static void radixSort(int[] arreglo) {
         if (arreglo.length == 0) return;
         int minimo = arreglo[0];
@@ -106,7 +99,6 @@ public class Ordenamientos {
             }
         }
     }
-
     private static int obtenerMaximo(int[] arreglo) {
         int max = arreglo[0];
         for (int i = 1; i < arreglo.length; i++) {
@@ -116,7 +108,6 @@ public class Ordenamientos {
         }
         return max;
     }
-
     private static void contarPorDigito(int[] arreglo, int exp) {
         int n = arreglo.length;
         int[] salida = new int[n];
@@ -137,8 +128,6 @@ public class Ordenamientos {
             arreglo[i] = salida[i];
         }
     }
-
-
     public static void seleccionDirecta(String[] arreglo) {
         for (int i = 0; i < arreglo.length; i++) {
             int indiceMinimo = i;
@@ -152,7 +141,6 @@ public class Ordenamientos {
             arreglo[indiceMinimo] = aux;
         }
     }
-
     public static void shellSort(String[] arreglo) {
         int salto = arreglo.length / 2;
         while (salto > 0) {
@@ -168,7 +156,6 @@ public class Ordenamientos {
             salto /= 2;
         }
     }
-
     public static void quicksort(String[] arreglo, int izquierda, int derecha) {
         if (izquierda >= derecha) return;
         String pivote = arreglo[(izquierda + derecha) / 2];
@@ -188,7 +175,6 @@ public class Ordenamientos {
         if (izquierda < j) quicksort(arreglo, izquierda, j);
         if (i < derecha) quicksort(arreglo, i, derecha);
     }
-
     public static void mergesort(String[] arreglo) {
         if (arreglo.length < 2) return;
         int mitad = arreglo.length / 2;
@@ -198,7 +184,6 @@ public class Ordenamientos {
         mergesort(derecha);
         combinar(arreglo, izquierda, derecha);
     }
-
     private static void combinar(String[] arreglo, String[] izquierda, String[] derecha) {
         int i = 0, j = 0, k = 0;
         while (i < izquierda.length && j < derecha.length) {
